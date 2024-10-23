@@ -2,38 +2,58 @@ package suite;
 
 import core.BaseTest;
 import core.LoggerManager;
-import org.testng.Assert;
+import core.AllureManager;
+import io.qameta.allure.Description;
+import io.qameta.allure.Severity;
+import io.qameta.allure.SeverityLevel;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Story;
+import navigation.Navigation;
 import org.testng.annotations.Test;
-import pages.Homepage;
 
+@Feature("HomePage Feature")
 public class MySuite extends BaseTest {
 
     @Test(retryAnalyzer = core.retry.RetryAnalyzer.class)
+    @Description("Questo test verifica che atterriamo sulla HomePage di Zurich")
+    @Severity(SeverityLevel.CRITICAL)
+    @Story("Verifica caricamento della HomePage")
     public void testHomePage() {
-        // Usa l'URL di base definito in BaseTest
-        driver.get(getBaseUrl());
-        LoggerManager.info("Titolo della pagina: " + driver.getTitle());
-        Homepage homepage = new Homepage(getDriver());
+        LoggerManager.info("INIZIO TEST - testHomepage");
+        Navigation navigation = new Navigation(getDriver());
 
-        LoggerManager.info("Verifica che il pulsante \"Accetta Cookies\" sia visibile");
-        Assert.assertTrue(homepage.isElementVisible(homepage.getAcceptCookiesButton()), "Il pulsante 'Accetta Cookies' non è visibile.");
+        AllureManager.logStep("Apriamo la HomePage");
+        navigation.openHomePage(getBaseUrl());
+
+        AllureManager.logStep("Verifica del titolo della HomePage");
+        navigation.verifyHomePageTitle();
+
+        AllureManager.logStep("Verifica del pulsante 'Accetta Cookies' visibile");
+        navigation.verifyAcceptCookiesButtonIsVisible();
+
+        LoggerManager.info("FINE TEST - testHomepage");
     }
 
     @Test(retryAnalyzer = core.retry.RetryAnalyzer.class)
+    @Description("Questo test accetta i cookies e chiude il banner superiore della HomePage di Zurich")
+    @Severity(SeverityLevel.NORMAL)
+    @Story("Accettazione cookies e chiusura banner")
     public void testExample() {
-        // Usa l'URL di base per la pagina di login
-        driver.get(getBaseUrl());
-        LoggerManager.info("Titolo della pagina: " + driver.getTitle());
-        Homepage homepage = new Homepage(getDriver());
+        LoggerManager.info("INIZIO TEST - testExample");
+        Navigation navigation = new Navigation(getDriver());
 
-        LoggerManager.info("Verifica che il pulsante \"Accetta Cookies\" sia visibile");
-        Assert.assertTrue(homepage.isElementVisible(homepage.getAcceptCookiesButton()), "Il pulsante 'Accetta Cookies' non è visibile.");
-        LoggerManager.info("Click su \"Accetta Cookies\"");
-        homepage.clickAcceptCookies();
+        AllureManager.logStep("Apriamo la HomePage");
+        navigation.openHomePage(getBaseUrl());
 
-        LoggerManager.info("Verifica che il pulsante \"Non Adesso\" sia visibile");
-        Assert.assertTrue(homepage.isElementVisible(homepage.getNotNowButton()), "Il pulsante 'Non Adesso' non è visibile.");
-        LoggerManager.info("Click su \"Non adesso\"");
-        homepage.clickNotNow();
+        AllureManager.logStep("Verifica del titolo della HomePage");
+        navigation.verifyHomePageTitle();
+
+        AllureManager.logStep("Verifica e click sul pulsante 'Accetta Cookies'");
+        navigation.verifyAndClickAcceptCookiesButton();
+
+        AllureManager.logStep("Verifica e click sul pulsante 'Non Adesso'");
+        navigation.verifyAndClickNotNowButton();
+
+        LoggerManager.info("FINE TEST - testExample");
     }
 }

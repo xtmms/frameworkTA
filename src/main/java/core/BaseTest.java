@@ -6,36 +6,36 @@ import org.testng.ITestContext;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Parameters;
+import org.testng.asserts.SoftAssert;
 import utils.WaitUtils;
-import java.util.List;
 
 public class BaseTest {
 
     protected WebDriver driver;
     protected WaitUtils waitUtils;
-    protected ScreenshotManager screenshotManager;  // ScreenshotManager non è statico
+    protected ScreenshotManager screenshotManager;
+    protected SoftAssert softAssert;
     private static final String BASE_URL = ConfigManager.getProperty("base.url");
 
+    @Parameters("browser")
     @BeforeMethod
-    public void setUp(ITestContext context) {
-        // Ottieni l'elenco dei browser dal file di configurazione
-        List<String> browsers = DriverManager.getBrowserList();
-        String browser = context.getCurrentXmlTest().getParameter("browser");
-        if (browser == null || browser.isEmpty()) {
-            browser = browsers.get(0); // Utilizza il primo browser configurato se non è specificato
-        }
-
+    public void setUp(String browser, ITestContext context) {
         // Inizializza il WebDriver tramite DriverManager
         driver = DriverManager.getDriver(browser);
 
-        // Inizializza WaitUtils
+        // Inizializza WaitUtils e ScreenshotManager
         waitUtils = new WaitUtils(driver);
-
-        // Inizializza ScreenshotManager
         screenshotManager = new ScreenshotManager(driver);
+
+        // Inizializza SoftAssert
+        softAssert = new SoftAssert();
 
         // Altre configurazioni comuni come massimizzare la finestra
         driver.manage().window().maximize();
+
+        // Passa il driver al contesto del test
+        context.setAttribute("WebDriver", driver);
     }
 
     @AfterMethod
@@ -43,8 +43,16 @@ public class BaseTest {
         // Verifica il risultato del test per determinare se è passato o fallito
         boolean isTestPassed = result.getStatus() == ITestResult.SUCCESS;
 
-        // Cattura lo screenshot al termine del test, sia se è passato che fallito
+        // Cattura lo screenshot al termine del test
         screenshotManager.takeScreenshot(result, context, isTestPassed);
+
+        // Richiama assertAll per raccogliere tutte le asserzioni
+        try {
+            softAssert.assertAll();
+        } catch (AssertionError e) {
+            LoggerManager.error("AssertAll ha fallito: " + e.getMessage());
+            throw e;  // Rilancia l'errore per segnalare il fallimento del test
+        }
 
         // Chiudi il driver
         DriverManager.quitDriver();
@@ -58,6 +66,11 @@ public class BaseTest {
     // Metodo helper per accedere all'URL di base
     public String getBaseUrl() {
         return BASE_URL;
+    }
+
+    // Metodo helper per ottenere SoftAssert nei test
+    public SoftAssert getSoftAssert() {
+        return softAssert;
     }
 }
 

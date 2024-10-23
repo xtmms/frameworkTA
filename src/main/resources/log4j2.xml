@@ -1,17 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="WARN">
     <Appenders>
+        <!-- Appender per la console per mostrare i log in tempo reale sulla console di IntelliJ -->
         <Console name="Console" target="SYSTEM_OUT">
             <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{36} - %msg%n"/>
         </Console>
+
+        <!-- Appender per il file di log per memorizzare i log in un file -->
         <File name="File" fileName="target/logs/application.log" append="true">
             <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{36} - %msg%n"/>
+            <!-- Aggiungi ImmediateFlush per evitare bufferizzazione -->
+            <ImmediateFlush>true</ImmediateFlush>
         </File>
     </Appenders>
+
     <Loggers>
-        <Root level="info">
+        <Root level="debug"> <!-- Modifica il livello a DEBUG per vedere tutti i log -->
             <AppenderRef ref="Console"/>
             <AppenderRef ref="File"/>
         </Root>
     </Loggers>
 </Configuration>
+

@@ -70,21 +70,40 @@
             <artifactId>log4j-core</artifactId>
             <version>2.19.0</version>
         </dependency>
-        <!-- Facoltativo: Dipendenza per SLF4J se lo stai ancora usando in altre parti del progetto -->
         <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-slf4j-impl</artifactId>
-            <version>2.19.0</version>
+            <groupId>io.qameta.allure</groupId>
+            <artifactId>allure-testng</artifactId>
+            <version>2.17.3</version>
         </dependency>
     </dependencies>
 
     <build>
         <plugins>
-            <!-- Plugin per Surefire (esecuzione dei test) -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.22.2</version>
+                <version>3.0.0-M5</version>
+                <configuration>
+                    <!-- Specifica il tuo file testng.xml -->
+                    <suiteXmlFiles>
+                        <suiteXmlFile>src/test/java/suite/xml/example.xml</suiteXmlFile>
+                    </suiteXmlFiles>
+                </configuration>
+            </plugin>
+            <!-- Plugin per Allure Report -->
+            <plugin>
+                <groupId>io.qameta.allure</groupId>
+                <artifactId>allure-maven</artifactId>
+                <version>2.10.0</version>
+                <!-- Esegui il report automaticamente nella fase di verify -->
+                <executions>
+                    <execution>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
