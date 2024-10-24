@@ -79,27 +79,28 @@
 
     <build>
         <plugins>
+            <!-- Plugin for running TestNG tests -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.0.0-M5</version>
                 <configuration>
-                    <!-- Specifica il tuo file testng.xml -->
                     <suiteXmlFiles>
                         <suiteXmlFile>src/test/java/suite/xml/example.xml</suiteXmlFile>
                     </suiteXmlFiles>
                     <systemPropertyVariables>
-                        <allure.results.directory>allure-results</allure.results.directory>
+                        <allure.results.directory>${project.build.directory}/allure-results</allure.results.directory>
                     </systemPropertyVariables>
                 </configuration>
             </plugin>
-            <!-- Plugin per Allure Report -->
+
+            <!-- Plugin for generating Allure reports -->
             <plugin>
                 <groupId>io.qameta.allure</groupId>
                 <artifactId>allure-maven</artifactId>
                 <version>2.14.0</version>
                 <configuration>
-                    <resultsDirectory>allure-results</resultsDirectory>
+                    <resultsDirectory>${project.build.directory}/allure-results</resultsDirectory>
                     <reportDirectory>${project.build.directory}/allure-reports</reportDirectory>
                 </configuration>
                 <executions>
@@ -110,32 +111,6 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
-            <!-- Maven Clean Plugin -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-clean-plugin</artifactId>
-                <version>3.1.0</version>
-                <configuration>
-                    <filesets>
-                        <!-- Cancella il contenuto di allure-reports
-                        <fileset>
-                            <directory>allure-reports</directory>
-                            <includes>
-                                <include>**/*</include>
-                            </includes>
-                            <followSymlinks>false</followSymlinks>
-                        </fileset>-->
-                        <!-- Cancella il contenuto di allure-results
-                        <fileset>
-                            <directory>allure-results</directory>
-                            <includes>
-                                <include>**/*</include>
-                            </includes>
-                            <followSymlinks>false</followSymlinks>
-                        </fileset>-->
-                    </filesets>
-                </configuration>
             </plugin>
         </plugins>
     </build>

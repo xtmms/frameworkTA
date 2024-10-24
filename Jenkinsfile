@@ -1,6 +1,8 @@
 pipeline {
     agent any
-
+    tools {
+        allure 'Allure CLI'  // Assicurati che 'Allure CLI' corrisponda al nome della tua installazione Allure
+    }
     stages {
         stage('Checkout') {
             steps {
@@ -28,7 +30,7 @@ pipeline {
 
         stage('Publish Allure Report') {
             steps {
-                allure includeProperties: false, results: [[path: 'allure-results']]
+                allure includeProperties: false, results: [[path: 'target/allure-results']]  // Adatta il percorso se necessario
             }
         }
     }
@@ -39,9 +41,6 @@ pipeline {
         }
         failure {
             echo 'La suite di test TestNG ha fallito!'
-        }
-        always {
-            cleanWs()
         }
     }
 }
