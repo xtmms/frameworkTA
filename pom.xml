@@ -118,22 +118,22 @@
                 <version>3.1.0</version>
                 <configuration>
                     <filesets>
-                        <!-- Cancella il contenuto di allure-reports -->
+                        <!-- Cancella il contenuto di allure-reports
                         <fileset>
                             <directory>allure-reports</directory>
                             <includes>
                                 <include>**/*</include>
                             </includes>
                             <followSymlinks>false</followSymlinks>
-                        </fileset>
-                        <!-- Cancella il contenuto di allure-results -->
+                        </fileset>-->
+                        <!-- Cancella il contenuto di allure-results
                         <fileset>
                             <directory>allure-results</directory>
                             <includes>
                                 <include>**/*</include>
                             </includes>
                             <followSymlinks>false</followSymlinks>
-                        </fileset>
+                        </fileset>-->
                     </filesets>
                 </configuration>
             </plugin>

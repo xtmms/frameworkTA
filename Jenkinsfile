@@ -28,7 +28,7 @@ pipeline {
 
         stage('Publish Allure Report') {
             steps {
-                allure includeProperties: false, results: [[path: 'target/allure-results']]
+                allure includeProperties: false, results: [[path: 'allure-results']]
             }
         }
     }
