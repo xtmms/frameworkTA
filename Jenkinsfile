@@ -12,21 +12,21 @@ pipeline {
         stage('Build') {
             steps {
                 // Compila il progetto Maven e risolvi le dipendenze
-                sh 'mvn clean install'
+                bat 'mvn clean install'
             }
         }
 
         stage('Run Tests') {
             steps {
                 // Esegui la suite TestNG specificata nel file XML
-                sh 'mvn test -DsuiteXmlFile=src/test/java/suite/xml/example.xml'
+                bat 'mvn test -DsuiteXmlFile=src/test/java/suite/xml/example.xml'
             }
         }
 
         stage('Generate Allure Report') {
             steps {
                 // Genera i report Allure
-                sh 'mvn allure:report'
+                bat 'mvn allure:report'
             }
         }
 
