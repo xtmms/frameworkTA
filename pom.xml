@@ -88,6 +88,9 @@
                     <suiteXmlFiles>
                         <suiteXmlFile>src/test/java/suite/xml/example.xml</suiteXmlFile>
                     </suiteXmlFiles>
+                    <systemPropertyVariables>
+                        <allure.results.directory>allure-results</allure.results.directory>
+                    </systemPropertyVariables>
                 </configuration>
             </plugin>
             <!-- Plugin per Allure Report -->
