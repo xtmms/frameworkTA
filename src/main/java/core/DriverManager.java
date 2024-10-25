@@ -23,6 +23,7 @@ public class DriverManager {
                     WebDriverManager.chromedriver().setup();
                     ChromeOptions chromeOptions = new ChromeOptions();
                     chromeOptions.addArguments("--incognito");
+                    chromeOptions.addArguments("--headless");
                     driver.set(new ChromeDriver(chromeOptions));
                     break;
 
@@ -30,6 +31,7 @@ public class DriverManager {
                     WebDriverManager.firefoxdriver().setup();
                     FirefoxOptions firefoxOptions = new FirefoxOptions();
                     firefoxOptions.addArguments("-private");
+                    firefoxOptions.addArguments("-headless");
                     driver.set(new FirefoxDriver(firefoxOptions));
                     break;
 
@@ -37,6 +39,7 @@ public class DriverManager {
                     WebDriverManager.edgedriver().setup();
                     EdgeOptions edgeOptions = new EdgeOptions();
                     edgeOptions.addArguments("-inprivate");
+                    edgeOptions.addArguments("--headless");
                     driver.set(new EdgeDriver(edgeOptions));
                     break;
 
