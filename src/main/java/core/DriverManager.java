@@ -8,6 +8,11 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.edge.EdgeOptions;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
+
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,13 +23,23 @@ public class DriverManager {
     // Metodo per ottenere il WebDriver in base al browser configurato
     public static WebDriver getDriver(String browser) {
         if (driver.get() == null) {
+            boolean isRemoteExecution = ConfigManager.getProperty("REMOTE_EXECUTION").equalsIgnoreCase("Y");
+
             switch (browser.toLowerCase()) {
                 case "chrome":
                     WebDriverManager.chromedriver().setup();
                     ChromeOptions chromeOptions = new ChromeOptions();
                     chromeOptions.addArguments("--incognito");
                     chromeOptions.addArguments("--headless");
-                    driver.set(new ChromeDriver(chromeOptions));
+                    if (isRemoteExecution) {
+                        try {
+                            driver.set(new RemoteWebDriver(new URL(ConfigManager.getProperty("SELENIUM_GRID_URL")), chromeOptions));
+                        } catch (MalformedURLException e) {
+                            throw new RuntimeException("URL del Selenium Grid non valido", e);
+                        }
+                    } else {
+                        driver.set(new ChromeDriver(chromeOptions));
+                    }
                     break;
 
                 case "firefox":
@@ -32,7 +47,15 @@ public class DriverManager {
                     FirefoxOptions firefoxOptions = new FirefoxOptions();
                     firefoxOptions.addArguments("-private");
                     firefoxOptions.addArguments("-headless");
-                    driver.set(new FirefoxDriver(firefoxOptions));
+                    if (isRemoteExecution) {
+                        try {
+                            driver.set(new RemoteWebDriver(new URL(ConfigManager.getProperty("SELENIUM_GRID_URL")), firefoxOptions));
+                        } catch (MalformedURLException e) {
+                            throw new RuntimeException("URL del Selenium Grid non valido", e);
+                        }
+                    } else {
+                        driver.set(new FirefoxDriver(firefoxOptions));
+                    }
                     break;
 
                 case "edge":
@@ -40,7 +63,15 @@ public class DriverManager {
                     EdgeOptions edgeOptions = new EdgeOptions();
                     edgeOptions.addArguments("-inprivate");
                     edgeOptions.addArguments("--headless");
-                    driver.set(new EdgeDriver(edgeOptions));
+                    if (isRemoteExecution) {
+                        try {
+                            driver.set(new RemoteWebDriver(new URL(ConfigManager.getProperty("SELENIUM_GRID_URL")), edgeOptions));
+                        } catch (MalformedURLException e) {
+                            throw new RuntimeException("URL del Selenium Grid non valido", e);
+                        }
+                    } else {
+                        driver.set(new EdgeDriver(edgeOptions));
+                    }
                     break;
 
                 default:
