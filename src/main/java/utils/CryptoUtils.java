@@ -8,7 +8,7 @@ import java.util.Base64;
 public class CryptoUtils {
 
     private static final String ALGORITHM = "AES";
-    private static final byte[] KEY = "1234567890123456".getBytes();  // Chiave segreta per AES (16 bytes)
+    private static final byte[] KEY = "1234567890123456".getBytes();  // Chiave segreta per AES (16 bytes), N.B creare file custom di configurazione per la chiave
 
     // Metodo per decifrare un testo
     public static String decrypt(String encryptedText) throws Exception {

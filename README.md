@@ -38,3 +38,11 @@ Il framework di test automation sviluppato su **IntelliJ IDEA** con **Java 11** 
 
 #### Conclusione
 Il framework di test automation sviluppato finora rappresenta una solida base per la creazione di test automatizzati efficaci e affidabili. Grazie alla sua modularità, è facile da mantenere e scalare, e le sue funzionalità avanzate lo rendono uno strumento potente per affrontare progetti di automazione di test su larga scala. IntelliJ IDEA, con Java 11, fornisce un ambiente di sviluppo moderno e performante, che facilita la gestione del codice e l'integrazione con altri strumenti e librerie.
+
+---
+
+### Licenza
+
+Questo progetto è rilasciato sotto licenza MIT. Per maggiori dettagli, consulta il file [LICENSE](./LICENSE).
+
+---
